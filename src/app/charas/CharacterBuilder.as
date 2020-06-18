@@ -18,7 +18,7 @@ package app.charas {
 
         }
 
-        public function buid():Character {
+        public function build():Character {
             var mlevel:AbilityInteger = new AbilityInteger(0, 99, level);
             var mhp:AbilityInteger = new AbilityInteger(0, hp);
             var msp:AbilityInteger = new AbilityInteger(0, sp);
