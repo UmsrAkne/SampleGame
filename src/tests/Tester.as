@@ -1,6 +1,7 @@
 package tests {
 
     import tests.charas.*;
+    import tests.cmds.*;
 
     /**
      * ...
@@ -14,6 +15,11 @@ package tests {
 
             new TestAbilityInteger();
             new TestCharacter();
+
+            new TestAttackCommand();
+            new TestSkillCommand();
+            new TestItemCommand();
+            new TestCommandStack();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
         }
