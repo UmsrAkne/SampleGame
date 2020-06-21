@@ -1,13 +1,17 @@
 package app.cmds {
 
+    import app.charas.Character;
+
     /**
      * ...
      * @author
      */
     public class AttackCommand implements IBattleCommand {
 
-        public function AttackCommand() {
+        private var owner:Character;
 
+        public function AttackCommand(owner:Character) {
+            this.owner = owner;
         }
 
 

@@ -1,13 +1,17 @@
 package app.cmds {
 
+    import app.charas.Character;
+
     /**
      * ...
      * @author
      */
     public class SkillCommand implements IBattleCommand {
 
-        public function SkillCommand() {
+        private var owner:Character
 
+        public function SkillCommand(owner:Character) {
+            this.owner = owner;
         }
 
 
