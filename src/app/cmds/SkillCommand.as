@@ -25,6 +25,8 @@ package app.cmds {
 
         }
 
+        public function cancel():void {
+        }
     }
 
 }

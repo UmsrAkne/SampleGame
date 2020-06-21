@@ -7,6 +7,7 @@ package app.cmds {
     public interface IBattleCommand {
         function get DisplayName():String;
         function executeAsBattleCommand():void;
+        function cancel():void;
     }
 
 }

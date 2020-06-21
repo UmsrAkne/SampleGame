@@ -24,6 +24,9 @@ package app.cmds {
         public function executeAsBattleCommand():void {
 
         }
+        
+        public function cancel():void{
+        }
 
     }
 
