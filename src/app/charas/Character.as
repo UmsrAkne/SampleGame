@@ -4,9 +4,10 @@ package app.charas {
      * ...
      * @author
      */
-    public class Character {
+    public class Character implements ITarget {
 
         private var name:String;
+        private var isFriend:Boolean = true;
 
         public function get Name():String {
             return name;
@@ -33,6 +34,18 @@ package app.charas {
             this.abilities = ability;
         }
 
+
+        public function get DisplayName():String {
+            return name;
+        }
+
+        public function get IsFriend():Boolean {
+            return isFriend;
+        }
+
+        public function get IsAlive():Boolean {
+            return (this.Abilities.HP.Currentry > 0);
+        }
     }
 
 }
