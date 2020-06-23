@@ -5,13 +5,14 @@ package app.charas {
         private var skillName:String = "";
         private var cost:int = 0;
         private var owner:Character;
+        private var targetRange:String = Range.RELATIVE_SINGLE_ENEMY;
 
         public function SkillBuilder() {
 
         }
 
         public function build():Skill {
-            var skill:Skill = new Skill(owner, skillName, cost);
+            var skill:Skill = new Skill(owner, skillName, cost, targetRange);
             return skill;
         }
 
@@ -27,6 +28,11 @@ package app.charas {
 
         public function setOwner(owner:Character):SkillBuilder {
             this.owner = owner;
+            return this;
+        }
+
+        public function setTargetRange(targetRange:String):SkillBuilder {
+            this.targetRange = targetRange;
             return this;
         }
     }

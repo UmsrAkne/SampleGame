@@ -9,11 +9,13 @@ package app.charas {
         private var displayName:String = "";
         private var cost:int = 0;
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
+        private var targetRange:String;
 
-        public function Skill(owner:Character, skillName:String, cost:int) {
+        public function Skill(owner:Character, skillName:String, cost:int, targetRange:String) {
             this.owner = owner;
             displayName = skillName;
             this.cost = cost;
+            this.targetRange = targetRange;
         }
 
         public function get DisplayName():String {
@@ -39,6 +41,10 @@ package app.charas {
 
         public function set Targets(value:Vector.<ITarget>):void {
             targets = value;
+        }
+
+        public function get TargetRange():String {
+            return targetRange;
         }
     }
 }
