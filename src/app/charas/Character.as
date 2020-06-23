@@ -18,6 +18,16 @@ package app.charas {
             return abilities;
         }
 
+        private var action:IAction;
+
+        public function get Action():IAction {
+            return action;
+        }
+
+        public function set Action(value:IAction):void {
+            action = value;
+        }
+
         public function Character(name:String, ability:Ability) {
             this.name = name;
             this.abilities = ability;
