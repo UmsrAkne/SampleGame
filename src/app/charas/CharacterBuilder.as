@@ -13,6 +13,7 @@ package app.charas {
         private var atk:int;
         private var gud:int;
         private var spd:int;
+        private var isFriend:Boolean;
 
         public function CharacterBuilder() {
 
@@ -27,8 +28,13 @@ package app.charas {
             var mspd:AbilityInteger = new AbilityInteger(0, spd);
             var ability:Ability = new Ability(mlevel, mhp, msp, matk, mgud, mspd);
 
-            var character:Character = new Character(characterName, ability);
+            var character:Character = new Character(characterName, ability, isFriend);
             return character;
+        }
+
+        public function setIsFriend(bool:Boolean):CharacterBuilder {
+            this.isFriend = bool;
+            return this;
         }
 
         public function setName(name:String):CharacterBuilder {
