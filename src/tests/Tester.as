@@ -20,6 +20,8 @@ package tests {
             new TestSkillCommand();
             new TestItemCommand();
             new TestCommandStack();
+            new TestSkill();
+            new TestItem();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
         }
