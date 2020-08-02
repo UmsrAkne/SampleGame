@@ -35,6 +35,7 @@ package app.charas {
         }
 
         public function executeAsBattleCommand():void {
+            owner.Action = this;
         }
 
         public function cancel():void {
