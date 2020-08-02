@@ -12,7 +12,11 @@ package app.cmds {
         }
 
         public function get TopCommands():Vector.<IBattleCommand> {
-            return commands[commands.length - 1];
+            if (commands.length == 0) {
+                return new Vector.<IBattleCommand>();
+            } else {
+                return commands[commands.length - 1];
+            }
         }
     }
 }
