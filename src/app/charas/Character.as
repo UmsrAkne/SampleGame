@@ -1,6 +1,5 @@
 package app.charas {
 
-    import app.cmds.CommandsStack;
     import app.cmds.IBattleCommand;
 
     /**
@@ -10,8 +9,12 @@ package app.charas {
     public class Character implements ITarget, IBattleCommand {
         private var name:String;
         private var isFriend:Boolean = true;
-        private var commandStack:CommandsStack = new CommandsStack();
         public var otherCharacters:Vector.<ITarget>;
+        private var commandManager:CommandManager = new CommandManager();
+
+        public function get CmdManager():CommandManager {
+            return commandManager;
+        }
 
         public function get Name():String {
             return name;
@@ -52,27 +55,11 @@ package app.charas {
             return (this.Abilities.HP.Currentry > 0);
         }
 
-        public function get Commands():CommandsStack {
-            return commandStack;
-        }
-
+        /**
+         * このキャラクターが所持するIBattleCommandの中から、指定されたインデックスのコマンドを実行します。
+         * @param commandIndex
+         */
         public function executeBattleCommand(commandIndex:int):void {
-            var selectedCommand:IBattleCommand = commandStack.TopCommands[commandIndex];
-            if (selectedCommand is IAction) {
-                // Skill or Item
-                Action = IAction(selectedCommand);
-                Action.Targets = getTargetables(Action.TargetRange);
-                var battleCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
-                for each (var t:ITarget in Action.Targets) {
-                    battleCommands.push(IBattleCommand(t));
-                }
-            }
-
-            if (selectedCommand is ITarget) {
-                // selected target character
-
-            }
-            commandStack.TopCommands[commandIndex].executeAsBattleCommand();
         }
 
         private function getTargetables(targetableRange:String):Vector.<ITarget> {
