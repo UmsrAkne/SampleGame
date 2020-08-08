@@ -24,10 +24,13 @@ package app.cmds {
         public function executeAsBattleCommand():void {
 
         }
-        
-        public function cancel():void{
+
+        public function cancel():void {
         }
 
-    }
 
+        public function get IsFinalCommand():Boolean {
+            return false;
+        }
+    }
 }

@@ -8,6 +8,7 @@ package app.cmds {
         function get DisplayName():String;
         function executeAsBattleCommand():void;
         function cancel():void;
+        function get IsFinalCommand():Boolean;
     }
 
 }

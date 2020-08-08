@@ -47,5 +47,9 @@ package app.charas {
         public function get TargetRange():String {
             return targetRange;
         }
+
+        public function get IsFinalCommand():Boolean {
+            return false;
+        }
     }
 }
