@@ -7,8 +7,7 @@ package app.charas {
      * ...
      * @author
      */
-    public class Character implements ITarget {
-
+    public class Character implements ITarget, IBattleCommand {
         private var name:String;
         private var isFriend:Boolean = true;
         private var commandStack:CommandsStack = new CommandsStack();
@@ -83,6 +82,16 @@ package app.charas {
             });
 
             return selected;
+        }
+
+        public function executeAsBattleCommand():void {
+        }
+
+        public function cancel():void {
+        }
+
+        public function get IsFinalCommand():Boolean {
+            return true;
         }
     }
 
