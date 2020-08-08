@@ -6,7 +6,7 @@ package app.cmds {
      */
     public interface IBattleCommand {
         function get DisplayName():String;
-        function executeAsBattleCommand():void;
+        function executeAsBattleCommand():Vector.<IBattleCommand>;
         function cancel():void;
         function get IsFinalCommand():Boolean;
     }

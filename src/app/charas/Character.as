@@ -76,7 +76,8 @@ package app.charas {
             return selected;
         }
 
-        public function executeAsBattleCommand():void {
+        public function executeAsBattleCommand():Vector.<IBattleCommand> {
+            return new Vector.<IBattleCommand>();
         }
 
         public function cancel():void {
