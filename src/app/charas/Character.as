@@ -1,6 +1,7 @@
 package app.charas {
 
     import app.cmds.IBattleCommand;
+    import app.cmds.AttackCommand;
 
     /**
      * ...
@@ -40,6 +41,10 @@ package app.charas {
             this.name = name;
             this.abilities = ability;
             this.isFriend = isFriend;
+
+            var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
+            defaultCommands.push(new AttackCommand(this));
+            CmdManager.DefaultCommands = defaultCommands;
         }
 
 

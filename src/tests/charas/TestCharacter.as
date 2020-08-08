@@ -47,7 +47,6 @@ package tests.charas {
             var targets:Vector.<ITarget> = new Vector.<ITarget>();
             targets.push(testCharacter, testCharacter2, testCharacter3, enemy0, enemy1);
             testCharacter.otherCharacters = targets;
-            testCharacter.setSelectableTargets(Range.RELATIVE_SINGLE_ENEMY);
         }
 
     }
