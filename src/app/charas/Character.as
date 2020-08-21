@@ -1,18 +1,22 @@
 package app.charas {
 
-    import app.cmds.CommandsStack;
     import app.cmds.IBattleCommand;
+    import app.cmds.AttackCommand;
 
     /**
      * ...
      * @author
      */
-    public class Character implements ITarget {
-
+    public class Character implements ITarget, IBattleCommand {
         private var name:String;
         private var isFriend:Boolean = true;
-        private var commandStack:CommandsStack = new CommandsStack();
         public var otherCharacters:Vector.<ITarget>;
+        private var commandManager:CommandManager = new CommandManager();
+        private var targets:Vector.<ITarget> = new Vector.<ITarget>();
+
+        public function get CmdManager():CommandManager {
+            return commandManager;
+        }
 
         public function get Name():String {
             return name;
@@ -38,6 +42,10 @@ package app.charas {
             this.name = name;
             this.abilities = ability;
             this.isFriend = isFriend;
+
+            var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
+            defaultCommands.push(new AttackCommand(this));
+            CmdManager.DefaultCommands = defaultCommands;
         }
 
 
@@ -53,27 +61,32 @@ package app.charas {
             return (this.Abilities.HP.Currentry > 0);
         }
 
-        public function get Commands():CommandsStack {
-            return commandStack;
-        }
-
+        /**
+         * このキャラクターが所持するIBattleCommandの中から、指定されたインデックスのコマンドを実行します。
+         * @param commandIndex
+         */
         public function executeBattleCommand(commandIndex:int):void {
-            var selectedCommand:IBattleCommand = commandStack.TopCommands[commandIndex];
-            if (selectedCommand is IAction) {
-                // Skill or Item
-                Action = IAction(selectedCommand);
-                Action.Targets = getTargetables(Action.TargetRange);
-                var battleCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
-                for each (var t:ITarget in Action.Targets) {
-                    battleCommands.push(IBattleCommand(t));
-                }
+            var selectedCommand:IBattleCommand = CmdManager.TopCommands[commandIndex];
+
+            if (selectedCommand is Character) {
+                this.targets = new Vector.<ITarget>();
+                targets.push(Character(selectedCommand));
             }
 
-            if (selectedCommand is ITarget) {
-                // selected target character
-
+            if (selectedCommand.IsFinalCommand) {
+                CmdManager.Selected = true;
+                return;
             }
-            commandStack.TopCommands[commandIndex].executeAsBattleCommand();
+
+            var nextCommands:Vector.<IBattleCommand> = selectedCommand.executeAsBattleCommand();
+            if (nextCommands.length != 0) {
+                CmdManager.stackCommand(nextCommands);
+            } else {
+                // 例えば、ターゲットにできるキャラクターが存在しないとか、アイテムやスキルを一つも所持していない等
+                // そういった場合に nextCommands == 0 の状態になる可能性あり。
+                // このブロックを通った場合、キャラクターの状態はこのメソッド突入時と同じ状態になるはず。
+                selectedCommand.cancel();
+            }
         }
 
         private function getTargetables(targetableRange:String):Vector.<ITarget> {
@@ -83,6 +96,17 @@ package app.charas {
             });
 
             return selected;
+        }
+
+        public function executeAsBattleCommand():Vector.<IBattleCommand> {
+            return new Vector.<IBattleCommand>();
+        }
+
+        public function cancel():void {
+        }
+
+        public function get IsFinalCommand():Boolean {
+            return true;
         }
     }
 

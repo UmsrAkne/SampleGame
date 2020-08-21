@@ -21,11 +21,15 @@ package app.cmds {
             return "スキル";
         }
 
-        public function executeAsBattleCommand():void {
-
+        public function executeAsBattleCommand():Vector.<IBattleCommand> {
+            return new Vector.<IBattleCommand>();
         }
 
         public function cancel():void {
+        }
+
+        public function get IsFinalCommand():Boolean {
+            return false;
         }
     }
 

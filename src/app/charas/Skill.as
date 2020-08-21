@@ -26,8 +26,9 @@ package app.charas {
             return cost;
         }
 
-        public function executeAsBattleCommand():void {
+        public function executeAsBattleCommand():Vector.<IBattleCommand> {
             owner.Action = this;
+            return new Vector.<IBattleCommand>();
         }
 
         public function cancel():void {
@@ -46,6 +47,10 @@ package app.charas {
 
         public function get TargetRange():String {
             return targetRange;
+        }
+
+        public function get IsFinalCommand():Boolean {
+            return false;
         }
     }
 }
