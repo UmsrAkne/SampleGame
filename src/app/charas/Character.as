@@ -12,6 +12,7 @@ package app.charas {
         private var isFriend:Boolean = true;
         public var otherCharacters:Vector.<ITarget>;
         private var commandManager:CommandManager = new CommandManager();
+        private var targets:Vector.<ITarget> = new Vector.<ITarget>();
 
         public function get CmdManager():CommandManager {
             return commandManager;
@@ -65,6 +66,27 @@ package app.charas {
          * @param commandIndex
          */
         public function executeBattleCommand(commandIndex:int):void {
+            var selectedCommand:IBattleCommand = CmdManager.TopCommands[commandIndex];
+
+            if (selectedCommand is Character) {
+                this.targets = new Vector.<ITarget>();
+                targets.push(Character(selectedCommand));
+            }
+
+            if (selectedCommand.IsFinalCommand) {
+                CmdManager.Selected = true;
+                return;
+            }
+
+            var nextCommands:Vector.<IBattleCommand> = selectedCommand.executeAsBattleCommand();
+            if (nextCommands.length != 0) {
+                CmdManager.stackCommand(nextCommands);
+            } else {
+                // 例えば、ターゲットにできるキャラクターが存在しないとか、アイテムやスキルを一つも所持していない等
+                // そういった場合に nextCommands == 0 の状態になる可能性あり。
+                // このブロックを通った場合、キャラクターの状態はこのメソッド突入時と同じ状態になるはず。
+                selectedCommand.cancel();
+            }
         }
 
         private function getTargetables(targetableRange:String):Vector.<ITarget> {

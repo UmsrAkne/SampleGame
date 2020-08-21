@@ -1,6 +1,7 @@
 package app.cmds {
 
     import app.charas.Character;
+    import app.charas.ITarget;
 
     /**
      * ...
@@ -22,7 +23,14 @@ package app.cmds {
         }
 
         public function executeAsBattleCommand():Vector.<IBattleCommand> {
-            return new Vector.<IBattleCommand>()
+            var commands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
+            owner.otherCharacters.forEach(function(item:ITarget, i:int, v:*):void {
+                if (!item.IsFriend) {
+                    commands.push(IBattleCommand(item));
+                }
+            });
+
+            return commands;
         }
 
         public function cancel():void {
