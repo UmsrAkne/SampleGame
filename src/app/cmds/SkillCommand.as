@@ -1,6 +1,7 @@
 package app.cmds {
 
     import app.charas.Character;
+    import app.charas.Skill;
 
     /**
      * ...
@@ -22,7 +23,12 @@ package app.cmds {
         }
 
         public function executeAsBattleCommand():Vector.<IBattleCommand> {
-            return new Vector.<IBattleCommand>();
+            var skillCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
+            owner.Skills.forEach(function(s:Skill, i:int, sv:Vector.<Skill>):void {
+                skillCommands.push(IBattleCommand(s));
+            })
+
+            return skillCommands;
         }
 
         public function cancel():void {

@@ -2,6 +2,7 @@ package app.charas {
 
     import app.cmds.IBattleCommand;
     import app.cmds.AttackCommand;
+    import app.cmds.SkillCommand;
 
     /**
      * ...
@@ -11,8 +12,14 @@ package app.charas {
         private var name:String;
         private var isFriend:Boolean = true;
         public var otherCharacters:Vector.<ITarget>;
+        public var targetSource:ITargetSource;
         private var commandManager:CommandManager = new CommandManager();
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
+        private var skills:Vector.<Skill> = new Vector.<Skill>();
+
+        public function get Skills():Vector.<Skill> {
+            return skills;
+        }
 
         public function get CmdManager():CommandManager {
             return commandManager;
@@ -45,7 +52,11 @@ package app.charas {
 
             var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
             defaultCommands.push(new AttackCommand(this));
+            defaultCommands.push(new SkillCommand(this));
             CmdManager.DefaultCommands = defaultCommands;
+
+            // 全キャラクターが持っている通常攻撃スキル
+            Skills.push(new SkillBuilder().setName("攻撃").setCost(0).setOwner(this).build());
         }
 
 

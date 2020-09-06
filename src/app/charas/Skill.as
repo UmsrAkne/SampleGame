@@ -28,7 +28,15 @@ package app.charas {
 
         public function executeAsBattleCommand():Vector.<IBattleCommand> {
             owner.Action = this;
-            return new Vector.<IBattleCommand>();
+            var targetableSide:Boolean = Range.getAbsoluteSide(owner, targetRange);
+            var battleCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
+            owner.targetSource.getTargets().forEach(function(t:ITarget, i:int, vv:Vector.<ITarget>):void {
+                if (t.IsFriend == targetableSide) {
+                    battleCommands.push(IBattleCommand(t));
+                }
+            })
+
+            return battleCommands;
         }
 
         public function cancel():void {

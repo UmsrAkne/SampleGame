@@ -5,6 +5,8 @@ package tests.charas {
     import tests.Assert;
     import app.charas.ITarget;
     import app.charas.Range;
+    import app.charas.Party;
+    import app.charas.ITargetSource;
 
     /**
      * ...
@@ -15,6 +17,7 @@ package tests.charas {
         public function TestCharacter() {
             creationTest();
             executeBattleCommandTest();
+            executeSkillCommandTest();
         }
 
         private function creationTest():void {
@@ -93,6 +96,28 @@ package tests.charas {
             characterBuilder.setIsFriend(false);
 
             return characterBuilder;
+        }
+
+        private function executeSkillCommandTest():void {
+            var cs:Vector.<Character> = new Vector.<Character>();
+            cs.push(new CharacterBuilder().setIsFriend(true).build());
+            cs.push(new CharacterBuilder().setIsFriend(false).build());
+            cs.push(new CharacterBuilder().setIsFriend(false).build());
+            var party:Party = new Party(cs);
+            var c:Character = cs[0]
+            c.targetSource = ITargetSource(party);
+
+            // skillCommand を実行
+            c.executeBattleCommand(1);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 1);
+
+            // ターゲットの数は２体
+            c.executeBattleCommand(0);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 2);
+
+            // コマンド選択完了
+            c.executeBattleCommand(0);
+            Assert.isTrue(c.CmdManager.Selected);
         }
     }
 }
