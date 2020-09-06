@@ -11,6 +11,7 @@ package app.charas {
         private var name:String;
         private var isFriend:Boolean = true;
         public var otherCharacters:Vector.<ITarget>;
+        public var targetSource:ITargetSource;
         private var commandManager:CommandManager = new CommandManager();
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
 

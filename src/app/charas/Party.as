@@ -3,7 +3,7 @@ package app.charas {
     /**　現在シーンに参加している全てのキャラクターを格納するベクターをフィールドに持ち、
      * その操作を行うメソッドをもつクラスです */
 
-    public class Party {
+    public class Party implements ITargetSource {
 
         private var characters:Vector.<Character> = new Vector.<Character>();
 
@@ -40,6 +40,15 @@ package app.charas {
          */
         public function getAll():Vector.<Character> {
             return characters;
+        }
+
+        public function getTargets():Vector.<ITarget> {
+            var v:Vector.<ITarget> = new Vector.<ITarget>();
+            characters.forEach(function(c:Character, i:int, vector:Vector.<Character>):void {
+                v.push(ITarget(c));
+            });
+
+            return v;
         }
     }
 }
