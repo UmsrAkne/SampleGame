@@ -2,6 +2,7 @@ package tests {
 
     import tests.charas.*;
     import tests.cmds.*;
+    import tests.charas.TestParty;
 
     /**
      * ...
@@ -22,6 +23,7 @@ package tests {
             new TestCommandStack();
             new TestSkill();
             new TestItem();
+            new TestParty();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
         }
