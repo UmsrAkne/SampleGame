@@ -50,6 +50,7 @@ package app.charas {
         }
 
         public function cancel():void {
+            owner.Action = null;
         }
 
         public function get IsFinalCommand():Boolean {

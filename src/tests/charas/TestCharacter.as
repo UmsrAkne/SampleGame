@@ -133,14 +133,32 @@ package tests.charas {
             c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
             c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
             c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
+            c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
+
 
             // itemCommand を実行
             c.executeBattleCommand(2);
-            Assert.areEqual(c.CmdManager.TopCommands.length, 3);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 4);
+
+            // 一度アイテムコマンドをキャンセル
+            c.CmdManager.cancelCommand();
+            Assert.areEqual(c.CmdManager.TopCommands.length, c.CmdManager.DefaultCommands.length);
+
+            // もう一度 itemCommand を実行
+            c.executeBattleCommand(2);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 4);
 
             // item のメソッドを実行。ターゲットの数は２
             c.executeBattleCommand(0);
-            Assert.areEqual(c.CmdManager.TopCommands.length, 2)
+            Assert.areEqual(c.CmdManager.TopCommands.length, 2);
+
+            // ターゲット選択画面でキャンセルを実行 再びアイテム一覧が表示されるのでコマンドの数は４
+            c.CmdManager.cancelCommand();
+            Assert.areEqual(c.CmdManager.TopCommands.length, 4);
+
+            // item のメソッド実行
+            c.executeBattleCommand(0);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 2);
 
             // 敵を１体選択してコマンド選択を終了
             c.executeBattleCommand(0);

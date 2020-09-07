@@ -98,6 +98,7 @@ package app.charas {
 
             var nextCommands:Vector.<IBattleCommand> = selectedCommand.executeAsBattleCommand();
             if (nextCommands.length != 0) {
+                CmdManager.stackExecutedCommand(selectedCommand);
                 CmdManager.stackCommand(nextCommands);
             } else {
                 // 例えば、ターゲットにできるキャラクターが存在しないとか、アイテムやスキルを一つも所持していない等
