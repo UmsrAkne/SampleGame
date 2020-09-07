@@ -9,6 +9,7 @@ package app.charas {
         private var commandStack:CommandsStack = new CommandsStack();
         private var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
         private var commands:Vector.<Vector.<IBattleCommand>> = new Vector.<Vector.<IBattleCommand>>();
+        private var executedCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
 
         public function CommandManager() {
 
@@ -20,10 +21,17 @@ package app.charas {
 
         public function set Selected(value:Boolean):void {
             selected = value;
+            if (value) {
+                executedCommands = new Vector.<IBattleCommand>();
+            }
         }
 
         public function stackCommand(value:Vector.<IBattleCommand>):void {
             commands.push(value);
+        }
+
+        public function stackExecutedCommand(value:IBattleCommand):void {
+            executedCommands.push(value);
         }
 
         public function get TopCommands():Vector.<IBattleCommand> {
@@ -37,6 +45,13 @@ package app.charas {
 
         public function get DefaultCommands():Vector.<IBattleCommand> {
             return defaultCommands;
+        }
+
+        public function cancelCommand():void {
+            if (executedCommands.length > 0) {
+                executedCommands.pop().cancel();
+                commands.pop();
+            }
         }
     }
 }

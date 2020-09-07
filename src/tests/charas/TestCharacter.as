@@ -7,6 +7,7 @@ package tests.charas {
     import app.charas.Range;
     import app.charas.Party;
     import app.charas.ITargetSource;
+    import app.charas.ItemBuilder;
 
     /**
      * ...
@@ -18,6 +19,7 @@ package tests.charas {
             creationTest();
             executeBattleCommandTest();
             executeSkillCommandTest();
+            executeItemCommandTest();
         }
 
         private function creationTest():void {
@@ -116,6 +118,49 @@ package tests.charas {
             Assert.areEqual(c.CmdManager.TopCommands.length, 2);
 
             // コマンド選択完了
+            c.executeBattleCommand(0);
+            Assert.isTrue(c.CmdManager.Selected);
+        }
+
+        private function executeItemCommandTest():void {
+            var cs:Vector.<Character> = new Vector.<Character>();
+            cs.push(new CharacterBuilder().setIsFriend(true).build());
+            cs.push(new CharacterBuilder().setIsFriend(false).build());
+            cs.push(new CharacterBuilder().setIsFriend(false).build());
+            var party:Party = new Party(cs);
+            var c:Character = cs[0]
+            c.targetSource = ITargetSource(party);
+            c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
+            c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
+            c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
+            c.Items.push(new ItemBuilder().setName("item1").setTargetRange(Range.RELATIVE_SINGLE_ENEMY).setOwner(c).build());
+
+
+            // itemCommand を実行
+            c.executeBattleCommand(2);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 4);
+
+            // 一度アイテムコマンドをキャンセル
+            c.CmdManager.cancelCommand();
+            Assert.areEqual(c.CmdManager.TopCommands.length, c.CmdManager.DefaultCommands.length);
+
+            // もう一度 itemCommand を実行
+            c.executeBattleCommand(2);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 4);
+
+            // item のメソッドを実行。ターゲットの数は２
+            c.executeBattleCommand(0);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 2);
+
+            // ターゲット選択画面でキャンセルを実行 再びアイテム一覧が表示されるのでコマンドの数は４
+            c.CmdManager.cancelCommand();
+            Assert.areEqual(c.CmdManager.TopCommands.length, 4);
+
+            // item のメソッド実行
+            c.executeBattleCommand(0);
+            Assert.areEqual(c.CmdManager.TopCommands.length, 2);
+
+            // 敵を１体選択してコマンド選択を終了
             c.executeBattleCommand(0);
             Assert.isTrue(c.CmdManager.Selected);
         }

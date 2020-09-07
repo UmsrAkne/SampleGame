@@ -3,6 +3,7 @@ package app.charas {
     import app.cmds.IBattleCommand;
     import app.cmds.AttackCommand;
     import app.cmds.SkillCommand;
+    import app.cmds.ItemCommand;
 
     /**
      * ...
@@ -16,9 +17,14 @@ package app.charas {
         private var commandManager:CommandManager = new CommandManager();
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
         private var skills:Vector.<Skill> = new Vector.<Skill>();
+        private var items:Vector.<Item> = new Vector.<Item>();
 
         public function get Skills():Vector.<Skill> {
             return skills;
+        }
+
+        public function get Items():Vector.<Item> {
+            return items;
         }
 
         public function get CmdManager():CommandManager {
@@ -53,6 +59,7 @@ package app.charas {
             var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
             defaultCommands.push(new AttackCommand(this));
             defaultCommands.push(new SkillCommand(this));
+            defaultCommands.push(new ItemCommand(this));
             CmdManager.DefaultCommands = defaultCommands;
 
             // 全キャラクターが持っている通常攻撃スキル
@@ -91,6 +98,7 @@ package app.charas {
 
             var nextCommands:Vector.<IBattleCommand> = selectedCommand.executeAsBattleCommand();
             if (nextCommands.length != 0) {
+                CmdManager.stackExecutedCommand(selectedCommand);
                 CmdManager.stackCommand(nextCommands);
             } else {
                 // 例えば、ターゲットにできるキャラクターが存在しないとか、アイテムやスキルを一つも所持していない等
