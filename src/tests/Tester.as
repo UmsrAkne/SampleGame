@@ -3,6 +3,7 @@ package tests {
     import tests.charas.*;
     import tests.cmds.*;
     import tests.charas.TestParty;
+    import flash.desktop.NativeApplication;
 
     /**
      * ...
@@ -26,6 +27,7 @@ package tests {
             new TestParty();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
+            NativeApplication.nativeApplication.exit();
         }
     }
 }
