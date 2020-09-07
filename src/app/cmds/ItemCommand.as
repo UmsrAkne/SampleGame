@@ -1,6 +1,7 @@
 package app.cmds {
 
     import app.charas.Character;
+    import app.charas.Item;
 
     /**
      * ...
@@ -22,7 +23,12 @@ package app.cmds {
         }
 
         public function executeAsBattleCommand():Vector.<IBattleCommand> {
-            return new Vector.<IBattleCommand>();
+            // アイテムの一覧を返す
+            var battleCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
+            owner.Items.forEach(function(item:Item, i:int, iv:Vector.<Item>):void {
+                battleCommands.push(Item(item));
+            });
+            return battleCommands;
         }
 
         public function cancel():void {
