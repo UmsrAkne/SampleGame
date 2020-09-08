@@ -25,7 +25,7 @@ package app.cmds {
         public function executeAsBattleCommand():Vector.<IBattleCommand> {
             owner.Action = owner.Skills[0];
             var commands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
-            owner.otherCharacters.forEach(function(item:ITarget, i:int, v:*):void {
+            owner.targetSource.getTargets().forEach(function(item:ITarget, i:int, v:*):void {
                 if (!item.IsFriend) {
                     commands.push(IBattleCommand(item));
                 }
