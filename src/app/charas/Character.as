@@ -12,7 +12,6 @@ package app.charas {
     public class Character implements ITarget, IBattleCommand {
         private var name:String;
         private var isFriend:Boolean = true;
-        public var otherCharacters:Vector.<ITarget>;
         public var targetSource:ITargetSource;
         private var commandManager:CommandManager = new CommandManager();
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
@@ -106,15 +105,6 @@ package app.charas {
                 // このブロックを通った場合、キャラクターの状態はこのメソッド突入時と同じ状態になるはず。
                 selectedCommand.cancel();
             }
-        }
-
-        private function getTargetables(targetableRange:String):Vector.<ITarget> {
-            var selectFriend:Boolean = Range.getAbsoluteSide(this, Range.RELATIVE_SINGLE_FRIEND)
-            var selected:Vector.<ITarget> = otherCharacters.filter(function(item:ITarget, i:int, v:*):Boolean {
-                return item.IsFriend == selectFriend;
-            });
-
-            return selected;
         }
 
         public function executeAsBattleCommand():Vector.<IBattleCommand> {

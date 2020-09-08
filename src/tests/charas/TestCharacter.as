@@ -50,10 +50,6 @@ package tests.charas {
 
             characterBuilder.setName("enemy1");
             var enemy1:Character = characterBuilder.build();
-
-            var targets:Vector.<ITarget> = new Vector.<ITarget>();
-            targets.push(testCharacter, testCharacter2, testCharacter3, enemy0, enemy1);
-            testCharacter.otherCharacters = targets;
         }
 
 
