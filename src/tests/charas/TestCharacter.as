@@ -73,6 +73,11 @@ package tests.charas {
             Assert.areEqual(ally0.CmdManager.TopCommands.length, 2);
             Assert.isFalse(ally0.CmdManager.Selected);
 
+            ally0.CmdManager.cancelCommand(); // コマンドを一回キャンセル。TopCommands は DefaultCOmmands と同値の状態に戻る
+            Assert.areEqual(ally0.CmdManager.TopCommands, ally0.CmdManager.DefaultCommands);
+
+            ally0.executeBattleCommand(0); // コマンドを再選択
+
             // 表示されているターゲット０番を選択すると、 Selected は true となりコマンド選択が完了状態になる。
             ally0.executeBattleCommand(0);
             Assert.isTrue(ally0.CmdManager.Selected);

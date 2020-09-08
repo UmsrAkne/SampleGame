@@ -23,6 +23,7 @@ package app.cmds {
         }
 
         public function executeAsBattleCommand():Vector.<IBattleCommand> {
+            owner.Action = owner.Skills[0];
             var commands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
             owner.otherCharacters.forEach(function(item:ITarget, i:int, v:*):void {
                 if (!item.IsFriend) {
@@ -34,6 +35,7 @@ package app.cmds {
         }
 
         public function cancel():void {
+            owner.Action = null;
         }
 
 
