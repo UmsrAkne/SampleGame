@@ -20,6 +20,7 @@ package tests.charas {
             executeBattleCommandTest();
             executeSkillCommandTest();
             executeItemCommandTest();
+            resetTest();
         }
 
         private function creationTest():void {
@@ -61,9 +62,12 @@ package tests.charas {
             var enemy0:Character = getTestEnemyBuilder().build();
             var enemy1:Character = getTestEnemyBuilder().build();
 
-            ally0.otherCharacters = new Vector.<ITarget>();
-            ally0.otherCharacters.push(enemy0);
-            ally0.otherCharacters.push(enemy1);
+            var party:Party = new Party();
+            party.push(ally0);
+            party.push(enemy0);
+            party.push(enemy1);
+
+            ally0.targetSource = party;
 
             // 一番上の項目である "攻撃" コマンドを実行する
             ally0.executeBattleCommand(0);
@@ -168,6 +172,25 @@ package tests.charas {
             // 敵を１体選択してコマンド選択を終了
             c.executeBattleCommand(0);
             Assert.isTrue(c.CmdManager.Selected);
+        }
+
+        private function resetTest():void {
+            var c:Character = new CharacterBuilder().setName("testChara").setIsFriend(true).build();
+            var cv:Vector.<Character> = new Vector.<Character>();
+            cv.push(c);
+            cv.push(new CharacterBuilder().setIsFriend(false).build());
+            cv.push(new CharacterBuilder().setIsFriend(false).build());
+            var party:Party = new Party(cv);
+            c.targetSource = ITargetSource(party);
+
+            c.executeBattleCommand(0);
+            c.executeBattleCommand(0);
+            Assert.isTrue(c.CmdManager.Selected);
+
+            c.reset();
+            Assert.isFalse(c.CmdManager.Selected);
+            Assert.isTrue(c.Action == null);
+            Assert.areEqual(c.CmdManager.TopCommands, c.CmdManager.DefaultCommands);
         }
     }
 }

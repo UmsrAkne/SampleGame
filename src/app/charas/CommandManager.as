@@ -53,5 +53,16 @@ package app.charas {
                 commands.pop();
             }
         }
+
+        /**
+         * このオブジェクトの内容をリセットします。
+         * 但し、commands は [0] に DefaultCommands が入った状態で初期化されます。
+         */
+        public function reset():void {
+            this.commands = new Vector.<Vector.<IBattleCommand>>();
+            commands.push(DefaultCommands);
+            Selected = false;
+            executedCommands = new Vector.<IBattleCommand>();
+        }
     }
 }

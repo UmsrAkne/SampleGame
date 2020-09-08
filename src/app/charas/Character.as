@@ -127,6 +127,11 @@ package app.charas {
         public function get IsFinalCommand():Boolean {
             return true;
         }
+
+        public function reset():void {
+            Action = null;
+            CmdManager.reset();
+        }
     }
 
 }
