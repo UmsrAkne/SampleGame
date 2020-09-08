@@ -40,6 +40,7 @@ package app.charas {
         }
 
         public function cancel():void {
+            owner.Action = null;
         }
 
         public function act():void {
