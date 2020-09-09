@@ -17,6 +17,11 @@ package app.charas {
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
         private var skills:Vector.<Skill> = new Vector.<Skill>();
         private var items:Vector.<Item> = new Vector.<Item>();
+        private var autoCommander:AutoCommander = new AutoCommander(this);
+
+        public function get AI():AutoCommander {
+            return autoCommander;
+        }
 
         public function get Skills():Vector.<Skill> {
             return skills;
