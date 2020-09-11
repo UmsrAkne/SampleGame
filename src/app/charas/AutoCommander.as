@@ -3,6 +3,8 @@ package app.charas {
     import app.cmds.IBattleCommand;
     import app.cmds.AttackCommand;
     import app.cmds.SkillCommand;
+    import app.cmds.ItemCommand;
+    import app.utils.Utils;
 
     public class AutoCommander {
 
@@ -19,6 +21,59 @@ package app.charas {
         public function AutoCommander(owner:Character) {
             this.owner = owner;
             commandsPriority.push(ATTACK_COMMAND, SKILL_COMMAND, ITEM_COMMAND);
+        }
+
+        /**
+         * 設定された行動の優先順位に基づき、キャラクターの Action をセットします。
+         */
+        public function setAction():void {
+            var selectableAction:Vector.<IAction> = new Vector.<IAction>();
+            commandsPriority.forEach(function(s:String, i:int, vv:Vector.<String>):void {
+                if (s == ATTACK_COMMAND) {
+                    selectableAction.push(owner.Skills[0]);
+                }
+
+                if (s == SKILL_COMMAND && owner.Skills.length > 1) {
+                    selectableAction.push(owner.Skills[Utils.getRandom(1, owner.Skills.length - 1)]); // skills[0] は通常攻撃
+                }
+
+                if (s == ITEM_COMMAND && owner.Items.length > 0) {
+                    selectableAction.push(owner.Items[Utils.getRandom(0, owner.Items.length - 1)]);
+                }
+            });
+
+            var currentAction:IAction;
+            for each (var a:IAction in selectableAction) {
+                if (a.CanAct) {
+                    currentAction = a;
+                    break;
+                }
+            }
+
+            selectableAction.forEach(function(a:IAction, i:int, av:Vector.<IAction>):void {
+            });
+
+            var targetables:Vector.<ITarget> = new Vector.<ITarget>()
+
+            if (currentAction.TargetRange == Range.ALL) {
+                targetables = owner.targetSource.getTargets();
+            } else {
+                owner.targetSource.getTargets().forEach(function(t:ITarget, i:int, vv:Vector.<ITarget>):void {
+                    if (t.IsFriend == Range.getAbsoluteSide(owner, currentAction.TargetRange)) {
+                        targetables.push(t);
+                    }
+                });
+            }
+
+            if (targetables.length > 0) {
+                if (Range.isAllRange(currentAction.TargetRange)) {
+                    currentAction.Targets = targetables;
+                } else {
+                    currentAction.Targets.push(targetables[0]);
+                }
+                owner.CmdManager.Selected = true;
+                owner.Action = currentAction;
+            }
         }
 
         public function setRandomAction():void {
