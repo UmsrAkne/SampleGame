@@ -56,5 +56,9 @@ package app.charas {
         public function get IsFinalCommand():Boolean {
             return false;
         }
+
+        public function get CanAct():Boolean {
+            return true;
+        }
     }
 }
