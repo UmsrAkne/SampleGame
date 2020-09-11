@@ -20,5 +20,14 @@ package app.charas {
                 return (range == RELATIVE_ALL_ENEMY || range == RELATIVE_SINGLE_ENEMY);
             }
         }
+
+        /**
+         * 入力された範囲が、全体を対象にするかどうかを取得します
+         * @param range
+         * @return
+         */
+        public static function isAllRange(range:String):Boolean {
+            return (range == RELATIVE_ALL_ENEMY || range == RELATIVE_ALL_FRIEDN);
+        }
     }
 }
