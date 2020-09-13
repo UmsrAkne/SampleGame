@@ -48,6 +48,8 @@ package tests.scns.battles {
             var c2:Character = party.getAll()[1];
 
             var enterKeyEvent:KeyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, Keyboard.ENTER);
+            var downKeyEvent:KeyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, Keyboard.DOWN);
+            var upKeyEvent:KeyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, Keyboard.UP);
 
             var commandSelected:Boolean = false;
             sp.addEventListener(Event.COMPLETE, function(e:Event):void {
@@ -78,6 +80,32 @@ package tests.scns.battles {
             // 即座に完了イベントが飛んでいるはず。
             commandSelected = false;
             sp.start();
+            Assert.isTrue(commandSelected);
+
+            commandSelected = false;
+            c1.CmdManager.reset();
+            c1.CmdManager.Selected = false;
+            sp.start();
+            Assert.isFalse(c1.CmdManager.Selected);
+            for (var i:int = 0; i < 5; i++) {
+                sp.keyboardInput(downKeyEvent);
+            }
+
+            // 過剰なカーソル移動でインデックスがはみ出さないかチェック
+            sp.keyboardInput(enterKeyEvent);
+
+            // 実行したコマンドはアイテムコマンドだが、アイテムを所持していないため、コマンドはそのまま。
+            Assert.isFalse(c1.CmdManager.Selected);
+
+            for (i = 0; i < 5; i++) {
+                sp.keyboardInput(upKeyEvent);
+            }
+
+            sp.keyboardInput(enterKeyEvent);
+            sp.keyboardInput(enterKeyEvent);
+            sp.keyboardInput(enterKeyEvent);
+
+            Assert.isTrue(c1.CmdManager.Selected);
             Assert.isTrue(commandSelected);
         }
 

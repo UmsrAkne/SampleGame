@@ -73,6 +73,7 @@ package app.scns.battle {
             }
 
             currentCommands = character.CmdManager.TopCommands;
+            cursorIndex = new Point(0, 0);
         }
 
         /**
@@ -93,11 +94,11 @@ package app.scns.battle {
                 selectCommand(cursorIndex.y);
             }
 
-            if (e.keyCode == Keyboard.DOWN) {
+            if (e.keyCode == Keyboard.DOWN && cursorIndex.y + 1 < currentCommands.length) {
                 cursorIndex.y++;
             }
 
-            if (e.keyCode == Keyboard.UP) {
+            if (e.keyCode == Keyboard.UP && cursorIndex.y > 0) {
                 cursorIndex.y--;
             }
         }
