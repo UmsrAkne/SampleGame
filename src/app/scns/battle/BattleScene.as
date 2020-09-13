@@ -6,6 +6,8 @@ package app.scns.battle {
     import app.charas.Party;
     import app.scns.IScenePart;
     import flash.events.Event;
+    import app.charas.Character;
+    import app.charas.ITargetSource;
 
     public class BattleScene extends Sprite implements IScene {
 
@@ -16,6 +18,10 @@ package app.scns.battle {
         public function BattleScene(party:Party, sceneParts:Vector.<IScenePart>) {
             this.party = party;
             this.sceneParts = sceneParts;
+            var p:Vector.<Character> = party.getAll();
+            p.forEach(function(c:Character, i:int, v:Vector.<Character>):void {
+                c.targetSource = ITargetSource(party);
+            });
         }
 
         public function start():void {
