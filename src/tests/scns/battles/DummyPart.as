@@ -2,6 +2,8 @@ package tests.scns.battles {
 
     import flash.events.EventDispatcher;
     import app.scns.IScenePart;
+    import flash.events.KeyboardEvent;
+    import flash.events.MouseEvent;
 
     public class DummyPart extends EventDispatcher implements IScenePart {
 
@@ -29,6 +31,12 @@ package tests.scns.battles {
         }
 
         public function input(value:uint):void {
+        }
+
+        public function keyboardInput(e:KeyboardEvent):void {
+        }
+
+        public function mouseInput(e:MouseEvent):void {
         }
     }
 }

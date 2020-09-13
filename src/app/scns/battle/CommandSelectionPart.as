@@ -6,6 +6,11 @@ package app.scns.battle {
     import app.charas.Character;
     import app.charas.Party;
     import flash.events.Event;
+    import app.cmds.IBattleCommand;
+    import flash.ui.Keyboard;
+    import flash.events.KeyboardEvent;
+    import flash.geom.Point;
+    import flash.events.MouseEvent;
 
     public class CommandSelectionPart extends Sprite implements IScenePart {
 
@@ -60,8 +65,27 @@ package app.scns.battle {
         /**
          * input によって渡ってきた uint を変換します
          */
-        private function commandIndexConverter(value:int):int {
-            return 0;
+        private function complete():void {
+            dispatchEvent(new Event(Event.COMPLETE));
+            allowInput = false;
+            removeEventListener(KeyboardEvent.KEY_DOWN, keyboardInput);
+        }
+
+        public function keyboardInput(e:KeyboardEvent):void {
+            if (e.keyCode == Keyboard.ENTER) {
+                input(cursorIndex.y);
+            }
+
+            if (e.keyCode == Keyboard.DOWN) {
+                cursorIndex.y++;
+            }
+
+            if (e.keyCode == Keyboard.UP) {
+                cursorIndex.y--;
+            }
+        }
+
+        public function mouseInput(e:MouseEvent):void {
         }
     }
 }
