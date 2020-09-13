@@ -5,6 +5,8 @@ package tests {
     import tests.charas.TestParty;
     import flash.desktop.NativeApplication;
     import tests.charas.TestAutoCommander;
+    import tests.scns.battles.TestBattleScene;
+    import tests.scns.battles.TestCommandSelectionPart;
 
     /**
      * ...
@@ -27,6 +29,8 @@ package tests {
             new TestItem();
             new TestParty();
             new TestAutoCommander();
+            new TestBattleScene();
+            new TestCommandSelectionPart();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
             NativeApplication.nativeApplication.exit();
