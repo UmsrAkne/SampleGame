@@ -6,6 +6,7 @@ package tests.scns.battles {
     public class DummyPart extends EventDispatcher implements IScenePart {
 
         private var startedCount:int = 0
+        private var lastInputValue:uint = 0x0;
 
         /**
          * startメソッドを実行した回数を表します
@@ -21,6 +22,13 @@ package tests.scns.battles {
 
         public function start():void {
             startedCount++;
+        }
+
+        public function get AllowInput():Boolean {
+            return true;
+        }
+
+        public function input(value:uint):void {
         }
     }
 }

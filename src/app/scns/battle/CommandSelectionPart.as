@@ -11,6 +11,7 @@ package app.scns.battle {
 
 
         private var ownerScene:IScene
+        private var allowInput:Boolean = false;
 
         /**
          * @param ownerScene このパートを保持しているシーンを入力します。
@@ -21,8 +22,7 @@ package app.scns.battle {
         }
 
         public function start():void {
-            var character:Character = getCurrentCharacter();
-            if (character == null) {
+            if (getCurrentCharacter() == null) {
                 dispatchEvent(new Event(Event.COMPLETE));
                 return;
             }
@@ -42,6 +42,26 @@ package app.scns.battle {
             }
 
             return chara;
+        }
+
+        public function get AllowInput():Boolean {
+            return allowInput;
+        }
+
+        public function input(value:uint):void {
+            var commandIndex:int = commandIndexConverter(value);
+            var character:Character = getCurrentCharacter();
+            character.executeBattleCommand(commandIndex);
+            if (character.CmdManager.Selected) {
+                dispatchEvent(new Event(Event.COMPLETE));
+            }
+        }
+
+        /**
+         * input によって渡ってきた uint を変換します
+         */
+        private function commandIndexConverter(value:int):int {
+            return 0;
         }
     }
 }

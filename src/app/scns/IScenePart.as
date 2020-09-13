@@ -7,5 +7,15 @@ package app.scns {
      */
     public interface IScenePart extends IEventDispatcher {
         function start():void;
+
+        /**
+         * @return このシーンパーツに対して、入力（キーボード、マウス）が可能かどうかを取得します
+         */
+        function get AllowInput():Boolean
+
+        /**
+         * @param value このシーンパーツに対して入力を行います。
+         */
+        function input(value:uint):void
     }
 }
