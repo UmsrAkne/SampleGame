@@ -7,6 +7,7 @@ package tests {
     import tests.charas.TestAutoCommander;
     import tests.scns.battles.TestBattleScene;
     import tests.scns.battles.TestCommandSelectionPart;
+    import tests.scns.battles.TestActionPart;
 
     /**
      * ...
@@ -31,6 +32,7 @@ package tests {
             new TestAutoCommander();
             new TestBattleScene();
             new TestCommandSelectionPart();
+            new TestActionPart();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
             NativeApplication.nativeApplication.exit();
