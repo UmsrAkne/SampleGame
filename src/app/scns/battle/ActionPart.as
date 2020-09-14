@@ -16,6 +16,7 @@ package app.scns.battle {
         }
 
         public function start():void {
+            addEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
         }
 
         public function get AllowInput():Boolean {
@@ -28,8 +29,12 @@ package app.scns.battle {
         public function mouseInput(e:MouseEvent):void {
         }
 
+        private function enterFrameEventHandler(e:Event):void {
+        }
+
         private function partComplete():void {
             dispatchEvent(new Event(Event.COMPLETE));
+            removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
         }
     }
 }

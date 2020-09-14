@@ -23,6 +23,7 @@ package tests.scns.battles {
 
         private function constructorTest():void {
             initializeFields();
+            actionPart.start();
         }
 
         private function initializeFields():void {
