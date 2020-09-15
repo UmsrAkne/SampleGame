@@ -5,11 +5,13 @@ package app.scns.battle {
     import flash.events.KeyboardEvent;
     import flash.events.MouseEvent;
     import flash.events.Event;
+    import app.animationClasses.Animator;
 
     public class ActionPart extends Sprite implements IScenePart {
 
         private var allowInput:Boolean = false;
         private var party:Party;
+        private var animator:Animator = new Animator();
 
         public function ActionPart(party:Party) {
             this.party = party;
@@ -30,6 +32,7 @@ package app.scns.battle {
         }
 
         private function enterFrameEventHandler(e:Event):void {
+            animator.executes();
         }
 
         private function partComplete():void {

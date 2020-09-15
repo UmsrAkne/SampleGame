@@ -4,6 +4,7 @@ package app.charas {
     import app.cmds.AttackCommand;
     import app.cmds.SkillCommand;
     import app.cmds.ItemCommand;
+    import app.animationClasses.Animator;
 
     /**
      * ...
@@ -18,6 +19,11 @@ package app.charas {
         private var skills:Vector.<Skill> = new Vector.<Skill>();
         private var items:Vector.<Item> = new Vector.<Item>();
         private var autoCommander:AutoCommander = new AutoCommander(this);
+        private var animator:Animator = new Animator();
+
+        public function get AnimationContainer():Animator {
+            return animator;
+        }
 
         public function get AI():AutoCommander {
             return autoCommander;
