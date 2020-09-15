@@ -8,7 +8,7 @@ package app.scns.battle {
 
     public class ActionPart extends Sprite implements IScenePart {
 
-        private var allowImput:Boolean = false;
+        private var allowInput:Boolean = false;
         private var party:Party;
 
         public function ActionPart(party:Party) {
@@ -20,7 +20,7 @@ package app.scns.battle {
         }
 
         public function get AllowInput():Boolean {
-            return AllowInput;
+            return allowInput;
         }
 
         public function keyboardInput(e:KeyboardEvent):void {
