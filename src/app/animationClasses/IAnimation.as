@@ -12,7 +12,7 @@ package app.animationClasses {
          * @param t
          */
         function set Target(t:DisplayObject):void;
-        function get Target(t:DisplayObject):void;
+        function get Target():DisplayObject;
 
         /**
          * このアニメーションを実行します。
@@ -42,5 +42,11 @@ package app.animationClasses {
          * @return
          */
         function get AllowDuplicate():Boolean;
+
+        /**
+         * このアニメーションの再生時間を指定します。
+         * @param value
+         */
+        function set Duration(value:int):void
     }
 }
