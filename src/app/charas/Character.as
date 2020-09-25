@@ -20,6 +20,11 @@ package app.charas {
         private var items:Vector.<Item> = new Vector.<Item>();
         private var autoCommander:AutoCommander = new AutoCommander(this);
         private var animator:Animator = new Animator();
+        private var communicator:Communicator = new Communicator(this);
+
+        public function get ActionCommunicator():Communicator {
+            return communicator;
+        }
 
         public function get AnimationContainer():Animator {
             return animator;
