@@ -4,5 +4,6 @@ package app.charas {
         function get DisplayName():String;
         function get IsFriend():Boolean;
         function get IsAlive():Boolean;
+        function get ActionCommunicator():Communicator;
     }
 }

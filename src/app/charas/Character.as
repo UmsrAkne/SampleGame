@@ -59,6 +59,10 @@ package app.charas {
         private var action:IAction;
 
         public function get Action():IAction {
+            var reaction:Reaction = new Reaction();
+            reaction.enqueueMessage("Actionにアクセス");
+            ActionCommunicator.reaction(reaction);
+
             return action;
         }
 
@@ -104,6 +108,7 @@ package app.charas {
             if (selectedCommand is Character) {
                 this.targets = new Vector.<ITarget>();
                 targets.push(Character(selectedCommand));
+                this.Action.Targets.push(selectedCommand);
             }
 
             if (selectedCommand.IsFinalCommand) {

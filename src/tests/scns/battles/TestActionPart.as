@@ -6,6 +6,7 @@ package tests.scns.battles {
     import app.charas.CharacterBuilder;
     import flash.events.Event;
     import tests.Assert;
+    import app.charas.Reaction;
 
     public class TestActionPart {
 
@@ -32,14 +33,29 @@ package tests.scns.battles {
         private function startTest():void {
             initializeFields();
             var completed:Boolean = false;
+            var enemyReacted:Boolean = false;
+            var allyReacted:Boolean = false;
             actionPart.addEventListener(Event.COMPLETE, function(e:Event):void {
                 completed = true;
+            });
+
+            allyA.executeBattleCommand(0)
+            allyA.executeBattleCommand(0)
+
+            enemyA.ActionCommunicator.addEventListener(Reaction.REACTION, function(e:Reaction):void {
+                enemyReacted = true
+            });
+
+            allyA.ActionCommunicator.addEventListener(Reaction.REACTION, function(e:Reaction):void {
+                allyReacted = true
             });
 
             actionPart.start();
             actionPart.dispatchEvent(new Event(Event.ENTER_FRAME));
 
             Assert.isTrue(completed);
+            Assert.isTrue(enemyReacted);
+            Assert.isTrue(allyReacted);
         }
 
         private function initializeFields():void {
@@ -57,9 +73,14 @@ package tests.scns.battles {
             allyA = party.getAll()[0];
             allyB = party.getAll()[1];
             enemyA = party.getAll()[2];
-            enemyA = party.getAll()[3];
-            enemyA = party.getAll()[4];
+            enemyB = party.getAll()[3];
+            enemyC = party.getAll()[4];
 
+            allyA.targetSource = party;
+            allyB.targetSource = party;
+            enemyA.targetSource = party;
+            enemyB.targetSource = party;
+            enemyC.targetSource = party;
         }
     }
 }

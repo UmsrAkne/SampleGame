@@ -44,6 +44,9 @@ package app.charas {
         }
 
         public function act():void {
+            for each (var t:ITarget in Targets) {
+                t.ActionCommunicator.recieve(this);
+            }
         }
 
         public function get Targets():Vector.<ITarget> {
