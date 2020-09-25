@@ -4,6 +4,8 @@ package tests.scns.battles {
     import app.charas.Party;
     import app.charas.Character;
     import app.charas.CharacterBuilder;
+    import flash.events.Event;
+    import tests.Assert;
 
     public class TestActionPart {
 
@@ -19,11 +21,25 @@ package tests.scns.battles {
 
         public function TestActionPart() {
             constructorTest();
+            startTest();
         }
 
         private function constructorTest():void {
             initializeFields();
             actionPart.start();
+        }
+
+        private function startTest():void {
+            initializeFields();
+            var completed:Boolean = false;
+            actionPart.addEventListener(Event.COMPLETE, function(e:Event):void {
+                completed = true;
+            });
+
+            actionPart.start();
+            actionPart.dispatchEvent(new Event(Event.ENTER_FRAME));
+
+            Assert.isTrue(completed);
         }
 
         private function initializeFields():void {
