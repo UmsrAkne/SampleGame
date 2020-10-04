@@ -16,6 +16,7 @@ package app.charas {
          * @param reaction
          */
         public function reaction(reaction:Reaction):void {
+            reaction.owner = this.owner;
             dispatchEvent(reaction);
         }
 
@@ -26,6 +27,7 @@ package app.charas {
         public function recieve(action:IAction):void {
             owner.Abilities.HP.Currentry -= 3; // デバッグ用コード とりあえずHPを減算する。マジックナンバーが書かれているが値に意味はない。０より大きい値ならOK
             var reaction:Reaction = new Reaction();
+            reaction.owner = this.owner;
             reaction.EffectType = Reaction.DAMAGE_EFFECT;
             reaction.enqueueMessage(owner.DisplayName + "はダメージを受けた");
             dispatchEvent(reaction);

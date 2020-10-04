@@ -9,6 +9,8 @@ package app.charas {
         private var messageQueue:Vector.<String> = new Vector.<String>();
         private var effectType:String;
 
+        public var owner:Character;
+
         public function Reaction() {
             super(REACTION, false, false);
         }
