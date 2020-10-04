@@ -2,12 +2,13 @@ package app.animationClasses {
     import flash.display.DisplayObject;
     import flash.geom.Point;
     import flash.display.DisplayObjectContainer;
+    import flash.events.EventDispatcher;
 
     /**
      * ...
      * @author
      */
-    public class Shake implements IAnimation {
+    public class Shake extends EventDispatcher implements IAnimation {
 
         public static const NORMAL_SHAKE:int = 0;
         public static const STRONG_SHAKE:int = 1;
@@ -23,7 +24,7 @@ package app.animationClasses {
         public static const LONG_TIME_HORIZONTAL_SHAKE:int = 14;
         public static const LONG_TIME_VERTICAL_SHAKE:int = 15;
 
-        private var target:DisplayObject;
+        private var animationTarget:DisplayObject;
         private var duration:int = 24;
         private var isValid:Boolean = true;
         private var frameCount:int = 0;
@@ -38,7 +39,7 @@ package app.animationClasses {
         private var lastAddition:Point = new Point();
 
         public function set Target(value:DisplayObject):void {
-            target = value;
+            animationTarget = value;
         }
 
 
@@ -59,8 +60,8 @@ package app.animationClasses {
             var dx:int = -1 * (Math.floor(distance * strength.x * direction.x) - lastAddition.x);
             var dy:int = -1 * (Math.floor(distance * strength.y * direction.y) - lastAddition.y);
 
-            target.x += dx;
-            target.y += dy;
+            animationTarget.x += dx;
+            animationTarget.y += dy;
 
             totalMoveDistance.x += dx;
             totalMoveDistance.y += dy;
@@ -77,8 +78,8 @@ package app.animationClasses {
             frameCount = duration + 1;
             isValid = false;
 
-            target.x -= totalMoveDistance.x;
-            target.y -= totalMoveDistance.y;
+            animationTarget.x -= totalMoveDistance.x;
+            animationTarget.y -= totalMoveDistance.y;
         }
 
         public function reset():void {
@@ -137,7 +138,7 @@ package app.animationClasses {
         }
 
         public function get Target():DisplayObject {
-            return target;
+            return animationTarget;
         }
 
         public function set Duration(d:int):void {

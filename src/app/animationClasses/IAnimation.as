@@ -1,11 +1,12 @@
 package app.animationClasses {
     import flash.display.DisplayObject;
+    import flash.events.IEventDispatcher;
 
     /**
      * ...
      * @author
      */
-    public interface IAnimation {
+    public interface IAnimation extends IEventDispatcher {
 
         /**
          * このアニメーションが動作の対象とするディスプレイオブジェクトを指定します
