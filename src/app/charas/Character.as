@@ -7,6 +7,9 @@ package app.charas {
     import app.animationClasses.Animator;
     import app.animationClasses.AnimationFactory;
     import app.animationClasses.AnimationType;
+    import app.animationClasses.IAnimation;
+    import flash.display.Sprite;
+    import flash.display.DisplayObject;
 
     /**
      * ...
@@ -24,6 +27,7 @@ package app.charas {
         private var animator:Animator = new Animator();
         private var communicator:Communicator = new Communicator(this);
         private var animationFactory:AnimationFactory = new AnimationFactory();
+        private var graphic:DisplayObject = new Sprite();
 
         public function get ActionCommunicator():Communicator {
             return communicator;
@@ -150,10 +154,13 @@ package app.charas {
         /**
          * AnimationFactory から指定のアニメーションを取得し、それを調整して AnimationContainer に add します。
          * @param animationTypeString AnimationType に定義された定数を入力します。
+         * @return AnimationContainer に追加したアニメーションへの参照を返します。
          */
-        public function addNewAnimation(animationTypeString:String):void {
-            AnimationContainer.add(animationFactory.create(animationTypeString));
+        public function addNewAnimation(animationTypeString:String):IAnimation {
+            var anime:IAnimation = animationFactory.create(animationTypeString);
+            AnimationContainer.Target = this.graphic;
+            AnimationContainer.add(anime);
+            return anime;
         }
     }
-
 }

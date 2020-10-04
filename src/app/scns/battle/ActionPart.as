@@ -8,12 +8,16 @@ package app.scns.battle {
     import app.animationClasses.Animator;
     import app.charas.Character;
     import app.charas.CommandManager;
+    import app.animationClasses.AnimationType;
+    import app.animationClasses.IAnimation;
+    import app.charas.ITarget;
 
     public class ActionPart extends Sprite implements IScenePart {
 
         private var allowInput:Boolean = false;
         private var party:Party;
         private var animator:Animator = new Animator();
+        private var currentCharacters:Vector.<Character> = new Vector.<Character>();
 
         public function ActionPart(party:Party) {
             this.party = party;
@@ -24,6 +28,7 @@ package app.scns.battle {
                 addEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
             }
 
+            // コマンド選択済みのキャラクターを一人選択する。
             var cmdSelectedCharacter:Character;
             var cmdSelectedCharacterList:Vector.<Character> = party.getAll().filter(function(c:Character, i:int, v:Vector.<Character>):Boolean {
                 return (c.CmdManager.Selected && c.Action.CanAct);
@@ -31,6 +36,15 @@ package app.scns.battle {
 
             if (cmdSelectedCharacterList.length > 0) {
                 cmdSelectedCharacter = cmdSelectedCharacterList[0];
+
+                cmdSelectedCharacter.addNewAnimation(AnimationType.NORMAL_ATTACK_ANIME).addEventListener(Event.COMPLETE, next);
+                currentCharacters = new Vector.<Character>();
+                currentCharacters.push(cmdSelectedCharacter);
+                for each (var t:ITarget in cmdSelectedCharacter.Action.Targets) {
+                    currentCharacters.push(Character(t));
+                    Character(t).addNewAnimation(AnimationType.RECIEVE_DAMAGE_ANIME).addEventListener(Event.COMPLETE, next);
+                }
+
                 cmdSelectedCharacter.Action.act();
             }
         }
@@ -48,7 +62,11 @@ package app.scns.battle {
         private function enterFrameEventHandler(e:Event):void {
             animator.executes();
 
-            if (!animator.canAnimation()) {
+            if (currentCharacters.length > 0) {
+                currentCharacters[0].AnimationContainer.executes();
+            }
+
+            if (!animator.canAnimation() && currentCharacters.length == 0) {
                 partComplete();
             }
         }
@@ -56,6 +74,12 @@ package app.scns.battle {
         private function partComplete():void {
             dispatchEvent(new Event(Event.COMPLETE));
             removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
+        }
+
+        private function next(e:Event):void {
+            var a:IAnimation = IAnimation(e.target);
+            a.removeEventListener(Event.COMPLETE, next);
+            currentCharacters.shift();
         }
     }
 }

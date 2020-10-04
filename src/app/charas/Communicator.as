@@ -1,6 +1,7 @@
 package app.charas {
 
     import flash.events.EventDispatcher;
+    import app.animationClasses.AnimationType;
 
     public class Communicator extends EventDispatcher {
 

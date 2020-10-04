@@ -3,6 +3,7 @@ package app.animationClasses {
     import flash.geom.Point;
     import flash.display.DisplayObjectContainer;
     import flash.events.EventDispatcher;
+    import flash.events.Event;
 
     /**
      * ...
@@ -80,6 +81,8 @@ package app.animationClasses {
 
             animationTarget.x -= totalMoveDistance.x;
             animationTarget.y -= totalMoveDistance.y;
+
+            dispatchEvent(new Event(Event.COMPLETE));
         }
 
         public function reset():void {
