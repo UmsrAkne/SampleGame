@@ -5,6 +5,8 @@ package app.charas {
     import app.cmds.SkillCommand;
     import app.cmds.ItemCommand;
     import app.animationClasses.Animator;
+    import app.animationClasses.AnimationFactory;
+    import app.animationClasses.AnimationType;
 
     /**
      * ...
@@ -21,6 +23,7 @@ package app.charas {
         private var autoCommander:AutoCommander = new AutoCommander(this);
         private var animator:Animator = new Animator();
         private var communicator:Communicator = new Communicator(this);
+        private var animationFactory:AnimationFactory = new AnimationFactory();
 
         public function get ActionCommunicator():Communicator {
             return communicator;
@@ -142,6 +145,14 @@ package app.charas {
         public function reset():void {
             Action = null;
             CmdManager.reset();
+        }
+
+        /**
+         * AnimationFactory から指定のアニメーションを取得し、それを調整して AnimationContainer に add します。
+         * @param animationTypeString AnimationType に定義された定数を入力します。
+         */
+        public function addNewAnimation(animationTypeString:String):void {
+            AnimationContainer.add(animationFactory.create(animationTypeString));
         }
     }
 
