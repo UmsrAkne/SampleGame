@@ -54,7 +54,7 @@ package tests.scns.battles {
 
             // 攻撃アニメーションに暫定で入っている Shake のデフォルトデュレーションが 24 なので、
             // 24回分x2 enterFrame を送出すれば actionPartは終了しているはず
-            for (var i:int = 0; i < 48; i++) {
+            for (var i:int = 0; i < 80; i++) {
                 actionPart.dispatchEvent(new Event(Event.ENTER_FRAME));
             }
 

@@ -25,7 +25,7 @@ package app.charas {
             return messageQueue.pop();
         }
 
-        public function enquueAnimation(a:IAnimation):void {
+        public function enqueueAnimation(a:IAnimation):void {
             animationQueue.unshift(a);
         }
 

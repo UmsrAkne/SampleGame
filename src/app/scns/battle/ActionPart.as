@@ -11,6 +11,7 @@ package app.scns.battle {
     import app.animationClasses.AnimationType;
     import app.animationClasses.IAnimation;
     import app.charas.ITarget;
+    import app.charas.Reaction;
 
     public class ActionPart extends Sprite implements IScenePart {
 
@@ -18,6 +19,8 @@ package app.scns.battle {
         private var party:Party;
         private var animator:Animator = new Animator();
         private var currentCharacters:Vector.<Character> = new Vector.<Character>();
+        private var currentCharacter:Character;
+        private var reactions:Vector.<Reaction> = new Vector.<Reaction>();
 
         public function ActionPart(party:Party) {
             this.party = party;
@@ -28,6 +31,10 @@ package app.scns.battle {
                 addEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
             }
 
+            party.getAll().forEach(function(c:Character, i:int, v:Vector.<Character>):void {
+                c.ActionCommunicator.addEventListener(Reaction.REACTION, stackReaction);
+            });
+
             // コマンド選択済みのキャラクターを一人選択する。
             var cmdSelectedCharacter:Character;
             var cmdSelectedCharacterList:Vector.<Character> = party.getAll().filter(function(c:Character, i:int, v:Vector.<Character>):Boolean {
@@ -36,16 +43,13 @@ package app.scns.battle {
 
             if (cmdSelectedCharacterList.length > 0) {
                 cmdSelectedCharacter = cmdSelectedCharacterList[0];
-
-                cmdSelectedCharacter.addNewAnimation(AnimationType.NORMAL_ATTACK_ANIME).addEventListener(Event.COMPLETE, next);
-                currentCharacters = new Vector.<Character>();
-                currentCharacters.push(cmdSelectedCharacter);
-                for each (var t:ITarget in cmdSelectedCharacter.Action.Targets) {
-                    currentCharacters.push(Character(t));
-                    Character(t).addNewAnimation(AnimationType.RECIEVE_DAMAGE_ANIME).addEventListener(Event.COMPLETE, next);
-                }
-
                 cmdSelectedCharacter.Action.act();
+                // act()実行後の段階でリアクションは全て積み上がっている
+
+                currentCharacter = reactions[0].owner;
+                var firstAnimation:IAnimation = reactions[0].dequeueAnimation();
+                firstAnimation.addEventListener(Event.COMPLETE, next);
+                currentCharacter.AnimationContainer.add(firstAnimation);
             }
         }
 
@@ -62,24 +66,47 @@ package app.scns.battle {
         private function enterFrameEventHandler(e:Event):void {
             animator.executes();
 
-            if (currentCharacters.length > 0) {
-                currentCharacters[0].AnimationContainer.executes();
+            if (currentCharacter) {
+                currentCharacter.AnimationContainer.executes();
             }
 
-            if (!animator.canAnimation() && currentCharacters.length == 0) {
+            if (!animator.canAnimation() && reactions.length == 0) {
                 partComplete();
             }
+
         }
 
         private function partComplete():void {
             dispatchEvent(new Event(Event.COMPLETE));
             removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
+            party.getAll().forEach(function(c:Character, i:int, v:Vector.<Character>):void {
+                c.ActionCommunicator.removeEventListener(Reaction.REACTION, stackReaction);
+            });
         }
 
         private function next(e:Event):void {
             var a:IAnimation = IAnimation(e.target);
             a.removeEventListener(Event.COMPLETE, next);
-            currentCharacters.shift();
+            var nextAnime:IAnimation;
+
+            if (reactions.length > 0) {
+
+                if (reactions[0].animationCount() == 0) {
+                    reactions.shift();
+                    if (reactions.length == 0) {
+                        return
+                    }
+                }
+
+                currentCharacter = reactions[0].owner;
+                nextAnime = reactions[0].dequeueAnimation();
+                nextAnime.addEventListener(Event.COMPLETE, next);
+                currentCharacter.AnimationContainer.add(nextAnime);
+            }
+        }
+
+        private function stackReaction(reaction:Reaction):void {
+            reactions.push(reaction);
         }
     }
 }

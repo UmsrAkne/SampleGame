@@ -81,6 +81,7 @@ package app.charas {
             this.name = name;
             this.abilities = ability;
             this.isFriend = isFriend;
+            AnimationContainer.Target = this.graphic;
 
             var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
             defaultCommands.push(new AttackCommand(this));
@@ -158,7 +159,6 @@ package app.charas {
          */
         public function addNewAnimation(animationTypeString:String):IAnimation {
             var anime:IAnimation = animationFactory.create(animationTypeString);
-            AnimationContainer.Target = this.graphic;
             AnimationContainer.add(anime);
             return anime;
         }

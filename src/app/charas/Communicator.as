@@ -2,6 +2,7 @@ package app.charas {
 
     import flash.events.EventDispatcher;
     import app.animationClasses.AnimationType;
+    import app.animationClasses.AnimationFactory;
 
     public class Communicator extends EventDispatcher {
 
@@ -17,6 +18,7 @@ package app.charas {
          */
         public function reaction(reaction:Reaction):void {
             reaction.owner = this.owner;
+            reaction.enqueueAnimation(new AnimationFactory().create(AnimationType.NORMAL_ATTACK_ANIME));
             dispatchEvent(reaction);
         }
 
@@ -30,6 +32,7 @@ package app.charas {
             reaction.owner = this.owner;
             reaction.EffectType = Reaction.DAMAGE_EFFECT;
             reaction.enqueueMessage(owner.DisplayName + "はダメージを受けた");
+            reaction.enqueueAnimation(new AnimationFactory().create(AnimationType.RECIEVE_DAMAGE_ANIME));
             dispatchEvent(reaction);
         }
     }
