@@ -8,11 +8,13 @@ package app.charas {
         private var owner:Character;
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
         private var targetRange:String;
+        private var effectType:String;
 
-        public function Item(owner:Character, itemName:String, targetRange:String) {
+        public function Item(owner:Character, itemName:String, targetRange:String, effectType:String) {
             this.owner = owner;
             displayName = itemName;
             this.targetRange = targetRange;
+            this.effectType = effectType;
         }
 
         public function act():void {
@@ -55,6 +57,10 @@ package app.charas {
 
         public function get IsFinalCommand():Boolean {
             return false;
+        }
+
+        public function get EffectType():String {
+            return effectType;
         }
 
         public function get CanAct():Boolean {

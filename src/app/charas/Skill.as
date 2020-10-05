@@ -10,12 +10,14 @@ package app.charas {
         private var cost:int = 0;
         private var targets:Vector.<ITarget> = new Vector.<ITarget>();
         private var targetRange:String;
+        private var effectType:String;
 
-        public function Skill(owner:Character, skillName:String, cost:int, targetRange:String) {
+        public function Skill(owner:Character, skillName:String, cost:int, targetRange:String, effectType:String) {
             this.owner = owner;
             displayName = skillName;
             this.cost = cost;
             this.targetRange = targetRange;
+            this.effectType = effectType;
         }
 
         public function get DisplayName():String {
@@ -67,6 +69,10 @@ package app.charas {
 
         public function get CanAct():Boolean {
             return owner.Abilities.SP.Currentry >= cost;
+        }
+
+        public function get EffectType():String {
+            return effectType;
         }
     }
 }
