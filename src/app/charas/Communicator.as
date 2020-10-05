@@ -7,6 +7,7 @@ package app.charas {
     public class Communicator extends EventDispatcher {
 
         private var owner:Character;
+        private var animatinoFactory:AnimationFactory = new AnimationFactory();
 
         public function Communicator(owner:Character) {
             this.owner = owner;
@@ -18,7 +19,7 @@ package app.charas {
          */
         public function reaction(reaction:Reaction):void {
             reaction.owner = this.owner;
-            reaction.enqueueAnimation(new AnimationFactory().create(AnimationType.NORMAL_ATTACK_ANIME));
+            reaction.enqueueAnimation(animatinoFactory.create(AnimationType.NORMAL_ATTACK_ANIME));
             dispatchEvent(reaction);
         }
 
@@ -32,7 +33,7 @@ package app.charas {
             reaction.owner = this.owner;
             reaction.EffectType = Reaction.DAMAGE_EFFECT;
             reaction.enqueueMessage(owner.DisplayName + "はダメージを受けた");
-            reaction.enqueueAnimation(new AnimationFactory().create(AnimationType.RECIEVE_DAMAGE_ANIME));
+            reaction.enqueueAnimation(animatinoFactory.create(AnimationType.RECIEVE_DAMAGE_ANIME));
             dispatchEvent(reaction);
         }
     }
