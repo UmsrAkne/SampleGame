@@ -5,6 +5,7 @@ package app.charas {
         private var itemName:String = "";
         private var owner:Character;
         private var targetRange:String;
+        private var effectType:String;
 
         public function ItemBuilder() {
         }
@@ -24,6 +25,11 @@ package app.charas {
             return this;
         }
 
+        public function setEffectType(effectType:String):ItemBuilder {
+            this.effectType = effectType;
+            return this;
+        }
+
         /**
          * 現在のフィールドの値を使用してアイテムオブジェクトを生成します。
          * @param itemNumber 番号を指定した場合、owner 以外に関しては現在のビルダーのフィールドに依存しない値でアイテムを生成します。
@@ -34,22 +40,22 @@ package app.charas {
         public function build(itemNumber:int = -1):Item {
             var resultItem:Item;
             if (itemNumber < 0) {
-                resultItem = new Item(owner, itemName, targetRange);
+                resultItem = new Item(owner, itemName, targetRange, effectType);
             } else {
                 if (itemNumber == 0) {
-                    resultItem = new Item(owner, "testItem0", Range.RELATIVE_SINGLE_ENEMY);
+                    resultItem = new Item(owner, "testItem0", Range.RELATIVE_SINGLE_ENEMY, EffectType.DAMAGE);
                 }
 
                 if (itemNumber == 1) {
-                    resultItem = new Item(owner, "testItem1", Range.RELATIVE_SINGLE_FRIEND);
+                    resultItem = new Item(owner, "testItem1", Range.RELATIVE_SINGLE_FRIEND, EffectType.DAMAGE);
                 }
 
                 if (itemNumber == 2) {
-                    resultItem = new Item(owner, "testItem2", Range.RELATIVE_ALL_ENEMY);
+                    resultItem = new Item(owner, "testItem2", Range.RELATIVE_ALL_ENEMY, EffectType.DAMAGE);
                 }
 
                 if (itemNumber == 3) {
-                    resultItem = new Item(owner, "testItem3", Range.RELATIVE_ALL_FRIEDN);
+                    resultItem = new Item(owner, "testItem3", Range.RELATIVE_ALL_FRIEDN, EffectType.DAMAGE);
                 }
             }
 

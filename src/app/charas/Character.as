@@ -4,6 +4,12 @@ package app.charas {
     import app.cmds.AttackCommand;
     import app.cmds.SkillCommand;
     import app.cmds.ItemCommand;
+    import app.animationClasses.Animator;
+    import app.animationClasses.AnimationFactory;
+    import app.animationClasses.AnimationType;
+    import app.animationClasses.IAnimation;
+    import flash.display.Sprite;
+    import flash.display.DisplayObject;
 
     /**
      * ...
@@ -18,6 +24,18 @@ package app.charas {
         private var skills:Vector.<Skill> = new Vector.<Skill>();
         private var items:Vector.<Item> = new Vector.<Item>();
         private var autoCommander:AutoCommander = new AutoCommander(this);
+        private var animator:Animator = new Animator();
+        private var communicator:Communicator = new Communicator(this);
+        private var animationFactory:AnimationFactory = new AnimationFactory();
+        private var graphic:DisplayObject = new Sprite();
+
+        public function get ActionCommunicator():Communicator {
+            return communicator;
+        }
+
+        public function get AnimationContainer():Animator {
+            return animator;
+        }
 
         public function get AI():AutoCommander {
             return autoCommander;
@@ -48,6 +66,10 @@ package app.charas {
         private var action:IAction;
 
         public function get Action():IAction {
+            var reaction:Reaction = new Reaction();
+            reaction.enqueueMessage("Actionにアクセス");
+            ActionCommunicator.reaction(reaction);
+
             return action;
         }
 
@@ -59,6 +81,7 @@ package app.charas {
             this.name = name;
             this.abilities = ability;
             this.isFriend = isFriend;
+            AnimationContainer.Target = this.graphic;
 
             var defaultCommands:Vector.<IBattleCommand> = new Vector.<IBattleCommand>();
             defaultCommands.push(new AttackCommand(this));
@@ -93,6 +116,7 @@ package app.charas {
             if (selectedCommand is Character) {
                 this.targets = new Vector.<ITarget>();
                 targets.push(Character(selectedCommand));
+                this.Action.Targets.push(selectedCommand);
             }
 
             if (selectedCommand.IsFinalCommand) {
@@ -127,6 +151,16 @@ package app.charas {
             Action = null;
             CmdManager.reset();
         }
-    }
 
+        /**
+         * AnimationFactory から指定のアニメーションを取得し、それを調整して AnimationContainer に add します。
+         * @param animationTypeString AnimationType に定義された定数を入力します。
+         * @return AnimationContainer に追加したアニメーションへの参照を返します。
+         */
+        public function addNewAnimation(animationTypeString:String):IAnimation {
+            var anime:IAnimation = animationFactory.create(animationTypeString);
+            AnimationContainer.add(anime);
+            return anime;
+        }
+    }
 }

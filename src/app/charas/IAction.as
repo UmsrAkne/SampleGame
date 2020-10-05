@@ -5,6 +5,7 @@ package app.charas {
         function get Targets():Vector.<ITarget>;
         function set Targets(value:Vector.<ITarget>):void;
         function get TargetRange():String;
+        function get EffectType():String;
 
         /**
          * このメソッドが実行された時点で、この行動を実行可能かを取得します。

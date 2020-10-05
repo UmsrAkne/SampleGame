@@ -7,6 +7,8 @@ package tests {
     import tests.charas.TestAutoCommander;
     import tests.scns.battles.TestBattleScene;
     import tests.scns.battles.TestCommandSelectionPart;
+    import tests.scns.battles.TestActionPart;
+    import tests.animationClasses.TestShake;
 
     /**
      * ...
@@ -31,6 +33,8 @@ package tests {
             new TestAutoCommander();
             new TestBattleScene();
             new TestCommandSelectionPart();
+            new TestActionPart();
+            new TestShake();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
             NativeApplication.nativeApplication.exit();
