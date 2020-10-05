@@ -3,11 +3,12 @@ package app.charas {
     import flash.events.EventDispatcher;
     import app.animationClasses.AnimationType;
     import app.animationClasses.AnimationFactory;
+    import app.animationClasses.IAnimation;
 
     public class Communicator extends EventDispatcher {
 
         private var owner:Character;
-        private var animatinoFactory:AnimationFactory = new AnimationFactory();
+        private var animationFactory:AnimationFactory = new AnimationFactory();
 
         public function Communicator(owner:Character) {
             this.owner = owner;
@@ -19,7 +20,7 @@ package app.charas {
          */
         public function reaction(reaction:Reaction):void {
             reaction.owner = this.owner;
-            reaction.enqueueAnimation(animatinoFactory.create(AnimationType.NORMAL_ATTACK_ANIME));
+            reaction.enqueueAnimation(animationFactory.create(AnimationType.NORMAL_ATTACK_ANIME));
             dispatchEvent(reaction);
         }
 
@@ -31,9 +32,28 @@ package app.charas {
             owner.Abilities.HP.Currentry -= 3; // デバッグ用コード とりあえずHPを減算する。マジックナンバーが書かれているが値に意味はない。０より大きい値ならOK
             var reaction:Reaction = new Reaction();
             reaction.owner = this.owner;
-            reaction.EffectType = Reaction.DAMAGE_EFFECT;
-            reaction.enqueueMessage(owner.DisplayName + "はダメージを受けた");
-            reaction.enqueueAnimation(animatinoFactory.create(AnimationType.RECIEVE_DAMAGE_ANIME));
+            reaction.EffectType = action.EffectType;
+
+            var msg:String;
+            var anime:IAnimation;
+            switch (action.EffectType) {
+                case EffectType.DAMAGE:
+                    msg = owner.DisplayName + "はダメージを受けた";
+                    anime = animationFactory.create(AnimationType.RECIEVE_DAMAGE_ANIME);
+                    break;
+                case EffectType.RECOVER:
+                    msg = owner.DisplayName + "は回復した";
+
+                    // 本当は回復アニメが入る
+                    anime = animationFactory.create(AnimationType.RECIEVE_DAMAGE_ANIME);
+                    break;
+
+                default:
+                    break;
+            }
+
+            reaction.enqueueMessage(msg);
+            reaction.enqueueAnimation(anime);
             dispatchEvent(reaction);
         }
     }
