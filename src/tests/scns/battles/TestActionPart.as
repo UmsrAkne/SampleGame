@@ -53,8 +53,11 @@ package tests.scns.battles {
             actionPart.start();
 
             // 攻撃アニメーションに暫定で入っている Shake のデフォルトデュレーションが 24 なので、
-            // 24回分x2 enterFrame を送出すれば actionPartは終了しているはず
-            for (var i:int = 0; i < 80; i++) {
+            // 24 x 4 enterFrame を送出すれば actionPartは終了するはず
+            for (var i:int = 0; i < 96; i++) {
+                if (i == 48) {
+                    Assert.isFalse(completed); // この時点ではまだ戦闘継続中
+                }
                 actionPart.dispatchEvent(new Event(Event.ENTER_FRAME));
             }
 

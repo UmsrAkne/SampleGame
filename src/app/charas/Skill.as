@@ -46,6 +46,10 @@ package app.charas {
         }
 
         public function act():void {
+            var reaction:Reaction = new Reaction();
+            reaction.effectType = effectType;
+            owner.ActionCommunicator.reaction(reaction);
+
             for each (var t:ITarget in Targets) {
                 t.ActionCommunicator.recieve(this);
             }

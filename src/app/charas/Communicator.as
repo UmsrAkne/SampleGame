@@ -32,7 +32,7 @@ package app.charas {
             owner.Abilities.HP.Currentry -= 3; // デバッグ用コード とりあえずHPを減算する。マジックナンバーが書かれているが値に意味はない。０より大きい値ならOK
             var reaction:Reaction = new Reaction();
             reaction.owner = this.owner;
-            reaction.EffectType = action.EffectType;
+            reaction.effectType = action.EffectType;
 
             var msg:String;
             var anime:IAnimation;

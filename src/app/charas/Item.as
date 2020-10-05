@@ -18,6 +18,9 @@ package app.charas {
         }
 
         public function act():void {
+            var reaction:Reaction = new Reaction();
+            reaction.effectType = effectType;
+            owner.ActionCommunicator.reaction(reaction);
         }
 
         public function get Targets():Vector.<ITarget> {

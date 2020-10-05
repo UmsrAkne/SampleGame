@@ -9,7 +9,7 @@ package app.charas {
 
         private var messageQueue:Vector.<String> = new Vector.<String>();
         private var animationQueue:Vector.<IAnimation> = new Vector.<IAnimation>();
-        private var effectType:String;
+        public var effectType:String;
 
         public var owner:Character;
 
@@ -43,10 +43,6 @@ package app.charas {
 
         public function get Length():int {
             return messageQueue.length;
-        }
-
-        public function set EffectType(type:String):void {
-            effectType = type;
         }
     }
 }
